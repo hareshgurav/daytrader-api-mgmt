@@ -1,0 +1,35 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation Root stack
+Resources:
+  daytradeauth:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytraders-authorization-template.yml"
+  daytraderportfolio:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: daytradeauth
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytrader-api-gateway-portfolio.yml"
+      Parameters:
+        daytraderAuthStackpPort: !GetAtt 'daytradeauth.Outputs.UserPoolARN'
+  daytraderaccounts:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: daytradeauth
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytrader-api-gateway-accounts.yml"        
+      Parameters:
+        daytraderAuthStackAcc: 
+          Fn::GetAtt: 
+          - daytradeauth
+          - Outputs.UserPoolARN
+  daytraderquotes:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: daytradeauth
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytrader-api-gateway-quotes.yml"      
+      Parameters:
+        daytraderAuthStackQuote: 
+          Fn::GetAtt: 
+          - daytradeauth
+          - Outputs.UserPoolARN
