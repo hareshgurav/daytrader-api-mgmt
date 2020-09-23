@@ -1,10 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
-# *** Change this to something useful for you!
 Description: github-codepipeline
 
 Parameters:
   # *** This value must always be passed in when creating / updating stack
-  # "NoEcho" is set to true, for security, so token won't be visible when examining the resulting stack
   GitHubOAuthToken:
     Type: String
     NoEcho: true
@@ -72,7 +70,7 @@ Resources:
             PollForSourceChanges: false
             OAuthToken: !Ref GitHubOAuthToken
           RunOrder: 1
-      # Build and Deploy, etc., stages would follow. Here is an example
+      # Build and Deploy, etc., stages would follow. 
       - Name: Deploy
         Actions:
         - Name: CloudFormationDeploy
