@@ -1,6 +1,9 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS CloudFormation Root stack
+Parameters:
+  daytradeURI:
+    Type: String
 Resources:
   daytradeauth:
     Type: AWS::CloudFormation::Stack
@@ -13,6 +16,7 @@ Resources:
       TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytrader-api-gateway-portfolio.yml"
       Parameters:
         daytraderAuthStackpPort: !GetAtt 'daytradeauth.Outputs.UserPoolARN'
+        daytradeuriPortfolio: !Ref daytradeURI
   daytraderaccounts:
     Type: AWS::CloudFormation::Stack
     DependsOn: daytradeauth
@@ -23,6 +27,7 @@ Resources:
           Fn::GetAtt: 
           - daytradeauth
           - Outputs.UserPoolARN
+        daytradeuriAccounts: !Ref daytradeURI  
   daytraderquotes:
     Type: AWS::CloudFormation::Stack
     DependsOn: daytradeauth
@@ -33,3 +38,4 @@ Resources:
           Fn::GetAtt: 
           - daytradeauth
           - Outputs.UserPoolARN
+        daytradeuriQuotes: !Ref daytradeURI  
