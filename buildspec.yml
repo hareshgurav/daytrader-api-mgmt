@@ -5,4 +5,4 @@ phases:
     commands:
   build:
     commands:
-      - aws cloudformation create-stack --stack-name daytrader-app-stack --template-body file://daytrader-api-gateway-nested-stack.yml --parameters ParameterKey=daytraderAuthStack,ParameterValue= https://51.144.186.116 --capabilities CAPABILITY_IAM --region us-east-2
+      - aws cloudformation create-stack --stack-name daytrader-app-stack --template-body file://daytrader-api-gateway-nested-stack.yml --parameters ParameterKey=daytradeURI,ParameterValue= https://51.144.186.116 --capabilities CAPABILITY_IAM --region us-east-2
