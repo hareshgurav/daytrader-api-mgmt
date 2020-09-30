@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation Root stack
+Resources:
+  daytradeauthJWT:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/daytraders-authorization-template.yml"
+  HttpAPIStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: daytradeauthJWT
+    Properties:
+      TemplateURL: "http://daytrader-cloudformation.s3.amazonaws.com/http-api.yml"
+      Parameters:
+        userpoolid: !GetAtt 'daytradeauthJWT.Outputs.UserPoolId'  
+        userPoolClientId: !GetAtt 'daytradeauthJWT.Outputs.UserPoolClientId'
